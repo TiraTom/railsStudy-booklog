@@ -40,4 +40,6 @@ Rails.application.configure do
   # config.action_view.raise_on_missing_translations = true
   BetterErrors::Middleware.allow_ip! "0.0.0.0/0"
   
+  config.action_mailer.default_url_options = { host: 'elites-booklog-tiratom' }
+  
 end
