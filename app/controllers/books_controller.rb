@@ -9,6 +9,7 @@ class BooksController < ApplicationController
     else
       @books = Book.includes(:bookmarks, :reviews, :user).order('updated_at DESC')
     end
+    @categories = Category.all
   end
   
   def show 
@@ -26,6 +27,7 @@ class BooksController < ApplicationController
   
   def new
     @book = Book.new
+    @categories = Category.all
   end
   
   def create
@@ -37,12 +39,14 @@ class BooksController < ApplicationController
       flash[:notice] = I18n.t('book.created')
       redirect_to action: :show, id: @book.id
     else
+      @categories = Category.all
       render :new
     end
   end
   
   def edit
     @book = Book.find(params[:id])
+    @categories = Category.all
   end
   
   def update
@@ -54,6 +58,7 @@ class BooksController < ApplicationController
       flash[:notice] = I18n.t('book.updated')
       redirect_to action: :show
     else
+      @categories = Category.all
       render :edit
     end
   end
@@ -67,7 +72,7 @@ class BooksController < ApplicationController
      
   private
   def input_params
-    params.require(:book).permit(:title, :author, :publisher, :price, :publish_date, :caption, :image)
+    params.require(:book).permit(:title, :author, :publisher, :price, :publish_date, :category_id, :caption, :image)
   end
   
 end

@@ -47,10 +47,13 @@
       <div class="author">
         <%= label :book, :author %>: <%= @book.author %>
       </div>
-      <div class"publisher >
+      <div class="publisher">
         <%= label :book, :publisher %>: <%= @book.publisher %>
       </div>
-      <div clas="price>
+      <div class="category_id">
+        <%= label :book, :category_id %>: <%= @book.category.name %>
+      </div>
+      <div clas="price">
         <%= label :book, :price %>: <%= @book.price.to_s(:delimited) %>
       </div>
       <div class="publish_date">
@@ -65,7 +68,7 @@
       </div>
     </div>
   </div>
-  <div class="my_review_wrapper">
+  <div class="my_review_wrapper">　　　　　　　　　
     <% if @my_review %>
       <%= form_for @my_review do |f| %>
         <%= f.text_area :body, class: 'form-control', row: 3, placeholder: 'レビューを書く' %>

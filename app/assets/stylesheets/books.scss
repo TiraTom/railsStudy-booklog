@@ -77,6 +77,14 @@ div.wrapper.book_index {
       }
     }
   }
+  div.category_list {
+    span.category {
+      display: inline-block;
+      padding: 5px;
+      border: 0.5px solid black;
+      margin-top: 5px;
+    }
+  }
 }
 
 div.wrapper.book_show {
