@@ -43,6 +43,9 @@ div.wrapper.book_index {
       background-color: antiquewhite;
       list-style:none;
       float: left;
+      a {
+        color: black;
+      }
       div.image{
         width: 230px;
         height: 280px;
@@ -99,6 +102,21 @@ div.wrapper.book_show {
       height: 100%;
       line-height: 260px;
       text-align: center;
+    }
+  }
+  div.bookmark_and_social {
+    div.social_button {
+      float: right;
+    }
+    div.bookmark {
+      float:right;
+      input.btn { 
+        font-size: 10px;
+        height: 20px;
+        padding: 0 5px;
+        vertical-align: top;
+        margin-right: 5px;
+      }
     }
   }
 }
