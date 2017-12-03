@@ -1,29 +1,28 @@
 class BooksController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show]
+  before_action :set_category, only: [:index, :new, :edit]
+  
   
   def index
     if user_signed_in? && params[:ft] && params[:ft] == 'my'
       if params[:category_ft].present? 
-        @books = Book.includes(:user).where("user_id = ? AND category_id = ?", current_user.id, params[:category_ft]).order('updated_at DESC')
+        @books = Book.includes(:user).where(user_id: current_user.id, category_id: params[:category_ft]).order('updated_at DESC')
       else
-        @books = Book.includes(:bookmarks, :reviews, :user).where("user_id = ? ", current_user.id).order('updated_at DESC')
+        @books = Book.includes(:bookmarks, :reviews, :user).where(user_id: current_user.id).order('updated_at DESC')
       end
     elsif user_signed_in? && params[:ft] && params[:ft] == 'bookmark'
       if params[:category_ft].present? 
-        @books = Book.joins(:bookmarks).where("bookmarks.user_id = ? AND category_id = ?", current_user.id, params[:category_ft]).order('updated_at DESC')
+        @books = Book.joins(:bookmarks).where("bookmarks.user_id": current_user.id, category_id: params[:category_ft]).order('updated_at DESC')
       else
-        @books = Book.joins(:bookmarks).where('bookmarks.user_id = ?', current_user.id).order('updated_at DESC')
+        @books = Book.joins(:bookmarks).where("bookmarks.user_id": current_user.id).order('updated_at DESC')
       end
     else
       if params[:category_ft].present? 
-        @books = Book.where('category_id = ?', params[:category_ft]).order('updated_at DESC')
+        @books = Book.where(category_id: params[:category_ft]).order('updated_at DESC')
       else
         @books = Book.includes(:bookmarks, :reviews, :user).order('updated_at DESC')
       end
     end
-    
-    @categories = Category.all
-
   end
   
   def show 
@@ -41,7 +40,6 @@ class BooksController < ApplicationController
   
   def new
     @book = Book.new
-    @categories = Category.all
   end
   
   def create
@@ -53,14 +51,12 @@ class BooksController < ApplicationController
       flash[:notice] = I18n.t('book.created')
       redirect_to action: :show, id: @book.id
     else
-      @categories = Category.all
       render :new
     end
   end
   
   def edit
     @book = Book.find(params[:id])
-    @categories = Category.all
   end
   
   def update
@@ -72,7 +68,6 @@ class BooksController < ApplicationController
       flash[:notice] = I18n.t('book.updated')
       redirect_to action: :show
     else
-      @categories = Category.all
       render :edit
     end
   end
@@ -87,6 +82,10 @@ class BooksController < ApplicationController
   private
   def input_params
     params.require(:book).permit(:title, :author, :publisher, :price, :publish_date, :category_id, :caption, :image)
+  end
+  
+  def set_category
+    @categories = Category.all
   end
   
 end

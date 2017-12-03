@@ -24,18 +24,14 @@
   
   <div class="category_filter">
     <% @categories.each do |category| %>
-      <% if params[:ft].present? %>
-        <% if params[:category_ft] == category.id.to_s %>
-          <%= link_to category.name, root_path(ft: params[:ft], category_ft: category.id) , class: "category selected_category" %>
-        <% else %>
-          <%= link_to category.name, root_path(ft: params[:ft], category_ft: category.id) , class: "category" %>
-        <% end %>
-      <% else %>  
-        <% if params[:category_ft] == category.id.to_s %>
+      <% if params[:ft].present? && params[:category_ft] == category.id.to_s %>
+        <%= link_to category.name, root_path(ft: params[:ft], category_ft: category.id) , class: "category selected_category" %>
+      <% elsif params[:ft].present? %>
+        <%= link_to category.name, root_path(ft: params[:ft], category_ft: category.id) , class: "category" %>
+      <% elsif params[:category_ft] == category.id.to_s %>  
         <%= link_to category.name, root_path(category_ft: category.id) , class: "category selected_category" %>
-        <% else %>
-          <%= link_to category.name, root_path(category_ft: category.id) , class: "category" %>
-        <% end %>
+      <% else %>
+        <%= link_to category.name, root_path(category_ft: category.id) , class: "category" %>
       <% end %>
     <% end %>
   </div>
