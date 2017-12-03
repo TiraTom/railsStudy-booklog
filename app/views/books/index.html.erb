@@ -14,15 +14,29 @@
       <div <%= 'class=bold' if params[:ft] && params[:ft] == 'my' %>><%= link_to '登録したBook', root_path(ft: 'my') %></div>
       <div <%= 'class=bold' if params[:ft] && params[:ft] == 'bookmark' %>><%= link_to 'ブックマーク', root_path(ft: 'bookmark') %></div>
     </div>
+  <% else %>
+    <div class="filter">
+      <div <%= 'class=bold' unless params[:ft] %>><%= link_to '全て', root_path %></div>
+    </div>
   <% end %>
   
   <hr>
   
-  <div class="category_list">
+  <div class="category_filter">
     <% @categories.each do |category| %>
-      <span class="category">
-        <%= category.name %>
-      </span> 
+      <% if params[:ft].present? %>
+        <% if params[:category_ft] == category.id.to_s %>
+          <%= link_to category.name, root_path(ft: params[:ft], category_ft: category.id) , class: "category selected_category" %>
+        <% else %>
+          <%= link_to category.name, root_path(ft: params[:ft], category_ft: category.id) , class: "category" %>
+        <% end %>
+      <% else %>  
+        <% if params[:category_ft] == category.id.to_s %>
+        <%= link_to category.name, root_path(category_ft: category.id) , class: "category selected_category" %>
+        <% else %>
+          <%= link_to category.name, root_path(category_ft: category.id) , class: "category" %>
+        <% end %>
+      <% end %>
     <% end %>
   </div>
   
