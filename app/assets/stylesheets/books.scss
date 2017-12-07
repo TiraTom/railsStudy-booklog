@@ -77,6 +77,19 @@ div.wrapper.book_index {
       }
     }
   }
+  div.category_filter {
+    .selected_category {
+        background: skyblue;
+        color: white;
+      }
+    .category {
+      color: black;
+      display: inline-block;
+      padding: 5px;
+      border: 0.5px solid black;
+      margin-top: 5px;
+    }
+  }
 }
 
 div.wrapper.book_show {
@@ -148,6 +161,7 @@ div.wrapper.book_show {
         float: left;
         width: 100px;
         height: 100px;
+        overflow: hidden;
         div.no_thumbnail {
           width: 100%;
           height: 100%;

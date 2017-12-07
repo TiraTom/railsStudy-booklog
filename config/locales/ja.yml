@@ -10,6 +10,7 @@ ja:
         publish_date: '刊行日'
         caption: '説明'
         image: 'Book画像'
+        category: '分類'
       review:
         user_id: '投稿者'
         rank: '評価'
@@ -225,3 +226,5 @@ ja:
   review:
     created: 'レビューを追加しました'
     deleted: 'レビューを削除しました'
+  category:
+    select: '---選択してください---'

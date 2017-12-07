@@ -1,13 +1,27 @@
 class BooksController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show]
+  before_action :set_category, only: [:index, :new, :edit]
+  
   
   def index
     if user_signed_in? && params[:ft] && params[:ft] == 'my'
-      @books = Book.includes(:bookmarks, :reviews, :user).where(user_id: current_user.id).order('updated_at DESC')
+      if params[:category_ft].present? 
+        @books = Book.includes(:user).where(user_id: current_user.id, category_id: params[:category_ft]).order('updated_at DESC')
+      else
+        @books = Book.includes(:bookmarks, :reviews, :user).where(user_id: current_user.id).order('updated_at DESC')
+      end
     elsif user_signed_in? && params[:ft] && params[:ft] == 'bookmark'
-      @books = Book.joins(:bookmarks).where('bookmarks.user_id = ?', current_user.id).order('updated_at DESC')
+      if params[:category_ft].present? 
+        @books = Book.joins(:bookmarks).where("bookmarks.user_id": current_user.id, category_id: params[:category_ft]).order('updated_at DESC')
+      else
+        @books = Book.joins(:bookmarks).where("bookmarks.user_id": current_user.id).order('updated_at DESC')
+      end
     else
-      @books = Book.includes(:bookmarks, :reviews, :user).order('updated_at DESC')
+      if params[:category_ft].present? 
+        @books = Book.where(category_id: params[:category_ft]).order('updated_at DESC')
+      else
+        @books = Book.includes(:bookmarks, :reviews, :user).order('updated_at DESC')
+      end
     end
   end
   
@@ -67,7 +81,11 @@ class BooksController < ApplicationController
      
   private
   def input_params
-    params.require(:book).permit(:title, :author, :publisher, :price, :publish_date, :caption, :image)
+    params.require(:book).permit(:title, :author, :publisher, :price, :publish_date, :category_id, :caption, :image)
+  end
+  
+  def set_category
+    @categories = Category.all
   end
   
 end

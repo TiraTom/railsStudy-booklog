@@ -31,6 +31,15 @@
     </div>
     
     <div class="form-group">
+      <%= f.label :category_id %><br />
+      <% if @book.persisted? %>
+        <%= f.select :category_id, @categories.map { |m| [m.name, m.id] }, {selected: @book.category.id}, class: 'form-control' %>
+      <% else %>
+        <%= f.select :category_id, @categories.map { |m| [m.name, m.id] }, {prompt: I18n.t('category.select')}, class: 'form-control' %>
+      <% end %>
+     </div>
+    
+    <div class="form-group">
       <%= f.label :price %><br />
       <%= f.number_field :price, class: "form-control" %>
     </div>
